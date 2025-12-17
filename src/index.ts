@@ -1,1 +1,1 @@
-export { logger } from './logging/logger';
+export { initializeLogger, logger, LoggerConfig } from './logging/logger';
