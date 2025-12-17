@@ -38,9 +38,11 @@ Each pattern project follows a consistent directory and file structure to promot
     dynamodb-client.test.ts         # Unit tests for DynamoDB client
     lambda-client.ts                # AWS SDK client for Lambda
     lambda-client.test.ts           # Unit tests for Lambda client
-  /config
+  /validation
     config.ts                       # Configuration validation with Zod
     config.test.ts                  # Unit tests for config
+    validator.ts                    # Generic validator helpers
+    validator.test.ts               # Unit tests for validator
   /responses
     apigateway-response.ts          # Standard API response helpers
     apigateway-response.test.ts     # Unit tests for API response helpers
