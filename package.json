@@ -1,6 +1,6 @@
 {
   "name": "@leanstacks/lambda-utils",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0",
   "description": "A collection of utilities and helper functions designed to streamline the development of AWS Lambda functions using TypeScript.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
