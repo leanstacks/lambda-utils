@@ -1,8 +1,29 @@
 import pino from 'pino';
-import { CloudwatchLogFormatter, pinoLambdaDestination, StructuredLogFormatter } from 'pino-lambda';
+import {
+  CloudwatchLogFormatter,
+  lambdaRequestTracker,
+  pinoLambdaDestination,
+  StructuredLogFormatter,
+} from 'pino-lambda';
 
 /**
- * Configuration options for the Pino Lambda logger
+ * Logger middleware which adds AWS Lambda attributes to log messages.
+ *
+ * @example
+ * ```typescript
+ * import { withRequestTracking } from '@leanstacks/lambda-utils';
+ *
+ * export const handler = async (event, context) => {
+ *   withRequestTracking(event, context);
+ *
+ *   // Your Lambda handler logic here
+ * };
+ * ```
+ */
+export const withRequestTracking = lambdaRequestTracker();
+
+/**
+ * Configuration options for the Logger
  */
 export interface LoggerConfig {
   /** Whether logging is enabled */
@@ -14,82 +35,70 @@ export interface LoggerConfig {
 }
 
 /**
- * Module-level state to store logger configuration
- */
-let _loggerConfig: LoggerConfig = {
-  enabled: true,
-  level: 'info',
-  format: 'json',
-};
-
-/**
- * Module-level cache for the logger instance
- */
-let _loggerInstance: pino.Logger | null = null;
-
-/**
- * Create and return the Pino Lambda logger instance
- * Uses the configuration set by initializeLogger
- * Logger instance is cached after first creation
- */
-const _createLogger = (): pino.Logger => {
-  const formatter = _loggerConfig.format === 'json' ? new StructuredLogFormatter() : new CloudwatchLogFormatter();
-
-  const lambdaDestination = pinoLambdaDestination({
-    formatter,
-  });
-
-  return pino(
-    {
-      enabled: _loggerConfig.enabled,
-      level: _loggerConfig.level,
-    },
-    lambdaDestination,
-  );
-};
-
-/**
- * Get the cached logger instance, creating it if necessary
- */
-const _getLogger = (): pino.Logger => {
-  if (_loggerInstance === null) {
-    _loggerInstance = _createLogger();
-  }
-  return _loggerInstance;
-};
-
-/**
- * Initialize the logger with configuration
- * Should be called once at Lambda handler entry point
- * Invalidates the cached logger instance so a new one is created with the updated config
- *
- * @param config Logger configuration options
- * @returns void
+ * Logger class which provides a Pino logger instance with AWS Lambda attributes.
  *
  * @example
  * ```typescript
- * import { initializeLogger } from '@utils/logging/logger';
+ * import { Logger } from '@leanstacks/lambda-utils';
+ * const logger = new Logger().instance;
  *
- * initializeLogger({
- *   enabled: true,
- *   level: 'debug',
- *   format: 'json',
- * });
+ * logger.info('Hello, world!');
  * ```
  */
-export const initializeLogger = (config: LoggerConfig): void => {
-  _loggerConfig = {
-    enabled: config.enabled ?? true,
-    level: config.level ?? 'info',
-    format: config.format ?? 'json',
+export class Logger {
+  private _loggerConfig: LoggerConfig = {
+    enabled: true,
+    level: 'info',
+    format: 'json',
   };
-  // Invalidate the cached logger instance so a new one is created with updated config
-  _loggerInstance = null;
-};
 
-/**
- * Pino logger instance
- * Configuration is supplied via initializeLogger() and persists across imports
- * Logger instance is cached after first creation for reuse
- */
-export const logger = _getLogger();
+  private _instance: pino.Logger | null = null;
+
+  constructor(config?: LoggerConfig) {
+    if (config) {
+      this._loggerConfig = {
+        enabled: config.enabled ?? true,
+        level: config.level ?? 'info',
+        format: config.format ?? 'json',
+      };
+    }
+  }
+
+  /**
+   * Creates a new, fully configured Pino logger instance.
+   */
+  private _createLogger = (): pino.Logger => {
+    const formatter =
+      this._loggerConfig.format === 'json' ? new StructuredLogFormatter() : new CloudwatchLogFormatter();
+
+    const lambdaDestination = pinoLambdaDestination({
+      formatter,
+    });
+
+    return pino(
+      {
+        enabled: this._loggerConfig.enabled,
+        level: this._loggerConfig.level,
+      },
+      lambdaDestination,
+    );
+  };
+
+  /**
+   * Get the logger instance.
+   *
+   * @example
+   * ```typescript
+   * import { Logger } from '@leanstacks/lambda-utils';
+   * const logger = new Logger().instance;
+   *
+   * logger.info('Hello, world!');
+   * ```
+   */
+  get instance(): pino.Logger {
+    if (this._instance === null) {
+      this._instance = this._createLogger();
+    }
+    return this._instance;
+  }
+}
