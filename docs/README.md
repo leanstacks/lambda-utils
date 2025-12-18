@@ -1,0 +1,27 @@
+# Lambda Utilities - Documentation
+
+Welcome to the Lambda Utilities documentation. This library provides a comprehensive set of utilities and helper functions to streamline the development of AWS Lambda functions using TypeScript.
+
+## Overview
+
+Lambda Utilities is a collection of pre-configured tools and helpers designed to reduce boilerplate code when developing AWS Lambda functions. It provides utilities for logging, API responses, configuration validation, and AWS SDK client management—all with full TypeScript support.
+
+## Documentation
+
+- **[Logging Guide](./LOGGING.md)** – Implement structured logging in your Lambda functions with Pino and automatic AWS context enrichment
+- **[API Gateway Responses](./API_GATEWAY_RESPONSES.md)** – Format Lambda responses for API Gateway with standard HTTP status codes and headers
+- **[Configuration](./CONFIGURATION.md)** – Validate environment variables and configuration with Zod type safety
+- **[AWS Clients](./CLIENTS.md)** – Pre-configured AWS SDK v3 clients optimized for Lambda
+- **[Getting Started](./GETTING_STARTED.md)** – Quick setup and installation instructions
+
+## Features
+
+- 📝 **Structured Logging** – Pino logger pre-configured for Lambda with automatic request context
+- 📤 **API Response Helpers** – Standard response formatting for API Gateway integration
+- ⚙️ **Configuration Validation** – Environment variable validation with Zod schema support
+- 🔌 **AWS Clients** – Pre-configured AWS SDK v3 clients for common services
+- 🔒 **Type Safe** – Full TypeScript support with comprehensive type definitions
+
+## Support
+
+For issues or questions, visit the [GitHub repository](https://github.com/leanstacks/lambda-utils).

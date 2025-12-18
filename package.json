@@ -1,0 +1,68 @@
+{
+  "name": "@leanstacks/lambda-utils",
+  "version": "0.1.0-alpha.6",
+  "description": "A collection of utilities and helper functions designed to streamline the development of AWS Lambda functions using TypeScript.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "keywords": [
+    "lambda",
+    "aws",
+    "utilities",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "Matthew Warman <leanstacker@gmail.com> (https://leanstacks.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leanstacks/lambda-utils.git"
+  },
+  "homepage": "https://github.com/leanstacks/lambda-utils#readme",
+  "bugs": {
+    "url": "https://github.com/leanstacks/lambda-utils/issues"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "clean": "rimraf coverage dist",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "prepare": "husky",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.2",
+    "@rollup/plugin-commonjs": "29.0.0",
+    "@rollup/plugin-node-resolve": "16.0.3",
+    "@rollup/plugin-terser": "0.4.4",
+    "@types/aws-lambda": "8.10.159",
+    "@types/jest": "30.0.0",
+    "@types/node": "25.0.3",
+    "@typescript-eslint/eslint-plugin": "8.50.0",
+    "@typescript-eslint/parser": "8.50.0",
+    "eslint": "9.39.2",
+    "husky": "9.1.7",
+    "jest": "30.2.0",
+    "prettier": "3.7.4",
+    "rimraf": "6.1.2",
+    "rollup": "4.53.5",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-typescript2": "0.36.0",
+    "ts-jest": "29.4.6",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "pino": "10.1.0",
+    "pino-lambda": "4.4.1"
+  }
+}

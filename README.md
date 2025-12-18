@@ -1,2 +1,180 @@
-# lambda-utils
-Lambda utilities
+# Lambda Utilities
+
+[![npm version](https://badge.fury.io/js/@leanstacks%2Flambda-utils.svg)](https://badge.fury.io/js/@leanstacks%2Flambda-utils)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A comprehensive TypeScript utility library for AWS Lambda functions. Provides pre-configured logging, API response formatting, configuration validation, and AWS SDK clients—reducing boilerplate and promoting best practices.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Features](#features)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
+## Installation
+
+```bash
+npm install @leanstacks/lambda-utils
+```
+
+### Requirements
+
+- Node.js 24.x or higher
+- TypeScript 5.0 or higher
+
+## Quick Start
+
+### Logging Example
+
+```typescript
+import { Logger, withRequestTracking } from '@leanstacks/lambda-utils';
+
+const logger = new Logger().instance;
+
+export const handler = async (event: any, context: any) => {
+  withRequestTracking(event, context);
+
+  logger.info('Processing request');
+
+  // Your Lambda handler logic here
+
+  return { statusCode: 200, body: 'Success' };
+};
+```
+
+### API Response Example
+
+```typescript
+import { success, badRequest } from '@leanstacks/lambda-utils';
+
+export const handler = async (event: any) => {
+  if (!event.body) {
+    return badRequest({ message: 'Body is required' });
+  }
+
+  // Process request
+
+  return success({ message: 'Request processed successfully' });
+};
+```
+
+## Features
+
+- **📝 Structured Logging** – Pino logger pre-configured for Lambda with automatic AWS request context enrichment
+- **📤 API Response Helpers** – Standard response formatting for API Gateway with proper HTTP status codes
+- **⚙️ Configuration Validation** – Environment variable validation with Zod schema support
+- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients for DynamoDB, Lambda, and more
+- **🔒 Full TypeScript Support** – Complete type definitions and IDE autocomplete
+- **⚡ Lambda Optimized** – Designed for performance in serverless environments
+
+## Documentation
+
+Comprehensive guides and examples are available in the `docs` directory:
+
+| Guide                                                        | Description                                                            |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| **[Logging Guide](./docs/LOGGING.md)**                       | Configure and use structured logging with automatic AWS Lambda context |
+| **[API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md)** | Format responses for API Gateway with standard HTTP patterns           |
+| **[Configuration](./docs/CONFIGURATION.md)**                 | Validate and manage environment variables with type safety             |
+| **[AWS Clients](./docs/CLIENTS.md)**                         | Use pre-configured AWS SDK v3 clients in your handlers                 |
+| **[Getting Started](./docs/GETTING_STARTED.md)**             | Setup and first steps guide                                            |
+
+## Usage
+
+### Logging
+
+The Logger utility provides structured logging configured specifically for AWS Lambda:
+
+```typescript
+import { Logger } from '@leanstacks/lambda-utils';
+
+const logger = new Logger({
+  level: 'info', // debug, info, warn, error
+  format: 'json', // json or text
+}).instance;
+
+logger.info({ message: 'User authenticated', userId: '12345' });
+logger.error({ message: 'Operation failed', error: err.message });
+```
+
+**→ See [Logging Guide](./docs/LOGGING.md) for detailed configuration and best practices**
+
+### API Responses
+
+Generate properly formatted responses for API Gateway:
+
+```typescript
+import { success, error, created, badRequest } from '@leanstacks/lambda-utils';
+
+export const handler = async (event: any) => {
+  return success({
+    data: { id: '123', name: 'Example' },
+  });
+};
+```
+
+**→ See [API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md) for all response types**
+
+### Configuration Validation
+
+Validate your Lambda environment configuration:
+
+```typescript
+import { validateConfig } from '@leanstacks/lambda-utils';
+import { z } from 'zod';
+
+const configSchema = z.object({
+  DATABASE_URL: z.string().url(),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']),
+  API_KEY: z.string(),
+});
+
+const config = validateConfig(configSchema);
+```
+
+**→ See [Configuration](./docs/CONFIGURATION.md) for validation patterns**
+
+### AWS Clients
+
+Use pre-configured AWS SDK v3 clients:
+
+```typescript
+import { getDynamoDBClient, getLambdaClient } from '@leanstacks/lambda-utils';
+
+const dynamoDB = getDynamoDBClient();
+const lambda = getLambdaClient();
+
+// Use clients for API calls
+```
+
+**→ See [AWS Clients](./docs/CLIENTS.md) for available clients and examples**
+
+## Examples
+
+Example Lambda functions using Lambda Utilities are available in the repository:
+
+- API Gateway with logging and response formatting
+- Configuration validation and DynamoDB integration
+- Error handling and structured logging
+
+## Reporting Issues
+
+If you encounter a bug or have a feature request, please report it on [GitHub Issues](https://github.com/leanstacks/lambda-utils/issues). Include as much detail as possible to help us investigate and resolve the issue quickly.
+
+## License
+
+This project is licensed under the MIT License - see [LICENSE](./LICENSE) file for details.
+
+## Support
+
+- **Issues & Questions:** [GitHub Issues](https://github.com/leanstacks/lambda-utils/issues)
+- **Documentation:** [docs](./docs/README.md)
+- **NPM Package:** [@leanstacks/lambda-utils](https://www.npmjs.com/package/@leanstacks/lambda-utils)
+
+## Changelog
+
+See the project [releases](https://github.com/leanstacks/lambda-utils/releases) for version history and updates.
