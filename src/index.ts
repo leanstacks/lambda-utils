@@ -10,3 +10,9 @@ export {
   httpHeaders,
   Headers,
 } from './utils/apigateway-response';
+export {
+  getDynamoDBClient,
+  getDynamoDBDocumentClient,
+  initializeDynamoDBClients,
+  resetDynamoDBClients,
+} from './clients/dynamodb-client';
