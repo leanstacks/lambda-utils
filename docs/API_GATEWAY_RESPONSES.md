@@ -445,7 +445,7 @@ return badRequest('Invalid input'); // ✓ String message
 return notFound(404); // ✓ Number message
 ```
 
-## Related Guides
+## Further reading
 
 - **[Logging Guide](./LOGGING.md)** – Structured logging for Lambda functions
-- **[Getting Started](./GETTING_STARTED.md)** – Quick setup guide
+- **[Back to the project documentation](README.md)**
