@@ -49,16 +49,16 @@ export const handler = async (event: any, context: any) => {
 ### API Response Example
 
 ```typescript
-import { success, badRequest } from '@leanstacks/lambda-utils';
+import { ok, badRequest } from '@leanstacks/lambda-utils';
 
-export const handler = async (event: any) => {
+export const handler = async (event: APIGatewayProxyEvent) => {
   if (!event.body) {
-    return badRequest({ message: 'Body is required' });
+    return badRequest('Body is required');
   }
 
   // Process request
 
-  return success({ message: 'Request processed successfully' });
+  return ok({ message: 'Request processed successfully' });
 };
 ```
 
@@ -108,10 +108,10 @@ logger.error({ message: 'Operation failed', error: err.message });
 Generate properly formatted responses for API Gateway:
 
 ```typescript
-import { success, error, created, badRequest } from '@leanstacks/lambda-utils';
+import { ok, created, badRequest } from '@leanstacks/lambda-utils';
 
-export const handler = async (event: any) => {
-  return success({
+export const handler = async (event: APIGatewayProxyEvent) => {
+  return ok({
     data: { id: '123', name: 'Example' },
   });
 };
