@@ -327,7 +327,8 @@ describe('MyHandler', () => {
 
 ## Further reading
 
-- [Pino Documentation](https://getpino.io/)
-- [AWS Lambda Environment and Context](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
-- [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)
-- [Back to the project documentation](README.md)
+- **[Pino Documentation](https://getpino.io/)**
+- **[Pino Lambda Documentation](https://github.com/FormidableLabs/pino-lambda#readme)**
+- **[AWS Lambda Environment and Context](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)**
+- **[CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)**
+- **[Back to the project documentation](README.md)**
