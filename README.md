@@ -67,7 +67,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 - **📝 Structured Logging** – Pino logger pre-configured for Lambda with automatic AWS request context enrichment
 - **📤 API Response Helpers** – Standard response formatting for API Gateway with proper HTTP status codes
 - **⚙️ Configuration Validation** – Environment variable validation with Zod schema support
-- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients for DynamoDB, Lambda, and more
+- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients including DynamoDB with document client support
 - **🔒 Full TypeScript Support** – Complete type definitions and IDE autocomplete
 - **⚡ Lambda Optimized** – Designed for performance in serverless environments
 
@@ -79,9 +79,7 @@ Comprehensive guides and examples are available in the `docs` directory:
 | ------------------------------------------------------------ | ---------------------------------------------------------------------- |
 | **[Logging Guide](./docs/LOGGING.md)**                       | Configure and use structured logging with automatic AWS Lambda context |
 | **[API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md)** | Format responses for API Gateway with standard HTTP patterns           |
-| **[Configuration](./docs/CONFIGURATION.md)**                 | Validate and manage environment variables with type safety             |
-| **[AWS Clients](./docs/CLIENTS.md)**                         | Use pre-configured AWS SDK v3 clients in your handlers                 |
-| **[Getting Started](./docs/GETTING_STARTED.md)**             | Setup and first steps guide                                            |
+| **[AWS Clients](./docs/README.md)**                          | Use pre-configured AWS SDK v3 clients in your handlers                 |
 
 ## Usage
 
@@ -119,39 +117,35 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
 **→ See [API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md) for all response types**
 
-### Configuration Validation
-
-Validate your Lambda environment configuration:
-
-```typescript
-import { validateConfig } from '@leanstacks/lambda-utils';
-import { z } from 'zod';
-
-const configSchema = z.object({
-  DATABASE_URL: z.string().url(),
-  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']),
-  API_KEY: z.string(),
-});
-
-const config = validateConfig(configSchema);
-```
-
-**→ See [Configuration](./docs/CONFIGURATION.md) for validation patterns**
-
 ### AWS Clients
 
-Use pre-configured AWS SDK v3 clients:
+Use pre-configured AWS SDK v3 clients. Currently available:
+
+#### DynamoDB Client
+
+Initialize the DynamoDB clients (base client and document client) once during handler initialization:
 
 ```typescript
-import { getDynamoDBClient, getLambdaClient } from '@leanstacks/lambda-utils';
+import { initializeDynamoDBClients, getDynamoDBDocumentClient } from '@leanstacks/lambda-utils';
 
-const dynamoDB = getDynamoDBClient();
-const lambda = getLambdaClient();
+export const handler = async (event: any, context: any) => {
+  // Initialize clients once
+  initializeDynamoDBClients({ region: 'us-east-1' });
 
-// Use clients for API calls
+  // Use the document client for operations
+  const docClient = getDynamoDBDocumentClient();
+  const result = await docClient.get({
+    TableName: 'MyTable',
+    Key: { id: 'item-123' },
+  });
+
+  return { statusCode: 200, body: JSON.stringify(result) };
+};
 ```
 
-**→ See [AWS Clients](./docs/CLIENTS.md) for available clients and examples**
+**→ See [DynamoDB Client Guide](./docs/DYNAMODB_CLIENT.md) for detailed configuration and examples**
+
+Additional AWS Clients are coming soon.
 
 ## Examples
 
