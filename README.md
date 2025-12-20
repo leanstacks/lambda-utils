@@ -46,6 +46,33 @@ export const handler = async (event: any, context: any) => {
 };
 ```
 
+### Configuration Example
+
+```typescript
+import { z } from 'zod';
+import { createConfigManager } from '@leanstacks/lambda-utils';
+
+// Define your configuration schema
+const configSchema = z.object({
+  TABLE_NAME: z.string().min(1),
+  AWS_REGION: z.string().default('us-east-1'),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+});
+
+type Config = z.infer<typeof configSchema>;
+
+const configManager = createConfigManager(configSchema);
+const config = configManager.get();
+
+export const handler = async (event: any) => {
+  console.log(`Using table: ${config.TABLE_NAME}`);
+
+  // Your Lambda handler logic here
+
+  return { statusCode: 200, body: 'Success' };
+};
+```
+
 ### API Response Example
 
 ```typescript
@@ -77,11 +104,34 @@ Comprehensive guides and examples are available in the `docs` directory:
 
 | Guide                                                        | Description                                                            |
 | ------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| **[Configuration Guide](./docs/CONFIGURATION.md)**           | Validate environment variables with Zod schemas and type safety        |
 | **[Logging Guide](./docs/LOGGING.md)**                       | Configure and use structured logging with automatic AWS Lambda context |
 | **[API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md)** | Format responses for API Gateway with standard HTTP patterns           |
-| **[AWS Clients](./docs/README.md)**                          | Use pre-configured AWS SDK v3 clients in your handlers                 |
+| **[DynamoDB Client](./docs/DYNAMODB_CLIENT.md)**             | Use pre-configured AWS SDK v3 clients in your handlers                 |
 
 ## Usage
+
+### Configuration
+
+Validate and manage environment variables with type safety:
+
+```typescript
+import { z } from 'zod';
+import { createConfigManager } from '@leanstacks/lambda-utils';
+
+const configManager = createConfigManager(
+  z.object({
+    TABLE_NAME: z.string().min(1),
+    AWS_REGION: z.string().default('us-east-1'),
+  }),
+);
+
+const config = configManager.get();
+// TypeScript infers type from schema
+// Validation errors thrown immediately
+```
+
+**→ See [Configuration Guide](./docs/CONFIGURATION.md) for detailed validation patterns and best practices**
 
 ### Logging
 

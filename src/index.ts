@@ -16,3 +16,4 @@ export {
   initializeDynamoDBClients,
   resetDynamoDBClients,
 } from './clients/dynamodb-client';
+export { createConfigManager, ConfigManager } from './validation/config';
