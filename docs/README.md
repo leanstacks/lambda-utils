@@ -8,11 +8,10 @@ Lambda Utilities is a collection of pre-configured tools and helpers designed to
 
 ## Documentation
 
+- **[Configuration Guide](./CONFIGURATION.md)** – Validate environment variables with Zod schemas and type-safe configuration management
 - **[Logging Guide](./LOGGING.md)** – Implement structured logging in your Lambda functions with Pino and automatic AWS context enrichment
 - **[API Gateway Responses](./API_GATEWAY_RESPONSES.md)** – Format Lambda responses for API Gateway with standard HTTP status codes and headers
 - **[DynamoDB Client](./DYNAMODB_CLIENT.md)** – Reusable singleton DynamoDB client instances with custom configuration
-- **[Configuration](./CONFIGURATION.md)** – Validate environment variables and configuration with Zod type safety
-- **[Getting Started](./GETTING_STARTED.md)** – Quick setup and installation instructions
 
 ## Features
 
