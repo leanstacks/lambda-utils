@@ -16,4 +16,11 @@ export {
   initializeDynamoDBClients,
   resetDynamoDBClients,
 } from './clients/dynamodb-client';
+export {
+  getSNSClient,
+  initializeSNSClient,
+  SNSMessageAttributes,
+  publishToTopic,
+  resetSNSClient,
+} from './clients/sns-client';
 export { createConfigManager, ConfigManager } from './validation/config';
