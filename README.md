@@ -94,7 +94,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 - **📝 Structured Logging** – Pino logger pre-configured for Lambda with automatic AWS request context enrichment
 - **📤 API Response Helpers** – Standard response formatting for API Gateway with proper HTTP status codes
 - **⚙️ Configuration Validation** – Environment variable validation with Zod schema support
-- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients including DynamoDB, SNS, and Lambda with singleton patterns
+- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients including DynamoDB, Lambda, SNS, and SQS with singleton patterns
 - **🔒 Full TypeScript Support** – Complete type definitions and IDE autocomplete
 - **⚡ Lambda Optimized** – Designed for performance in serverless environments
 
@@ -108,8 +108,9 @@ Comprehensive guides and examples are available in the `docs` directory:
 | **[Logging Guide](./docs/LOGGING.md)**                       | Configure and use structured logging with automatic AWS Lambda context |
 | **[API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md)** | Format responses for API Gateway with standard HTTP patterns           |
 | **[DynamoDB Client](./docs/DYNAMODB_CLIENT.md)**             | Use pre-configured DynamoDB clients with singleton pattern             |
-| **[SNS Client](./docs/SNS_CLIENT.md)**                       | Publish messages to SNS topics with message attributes                 |
 | **[Lambda Client](./docs/LAMBDA_CLIENT.md)**                 | Invoke other Lambda functions synchronously or asynchronously          |
+| **[SNS Client](./docs/SNS_CLIENT.md)**                       | Publish messages to SNS topics with message attributes                 |
+| **[SQS Client](./docs/SQS_CLIENT.md)**                       | Send messages to SQS queues with message attributes                    |
 
 ## Usage
 
@@ -197,6 +198,32 @@ export const handler = async (event: any, context: any) => {
 
 **→ See [DynamoDB Client Guide](./docs/DYNAMODB_CLIENT.md) for detailed configuration and examples**
 
+#### Lambda Client
+
+Invoke other Lambda functions synchronously or asynchronously:
+
+```typescript
+import { invokeLambdaSync, invokeLambdaAsync } from '@leanstacks/lambda-utils';
+
+export const handler = async (event: any) => {
+  // Synchronous invocation - wait for response
+  const response = await invokeLambdaSync('my-function-name', {
+    key: 'value',
+    data: { nested: true },
+  });
+
+  // Asynchronous invocation - fire and forget
+  await invokeLambdaAsync('my-async-function', {
+    eventType: 'process',
+    data: [1, 2, 3],
+  });
+
+  return { statusCode: 200, body: JSON.stringify(response) };
+};
+```
+
+**→ See [Lambda Client Guide](./docs/LAMBDA_CLIENT.md) for detailed configuration and examples**
+
 #### SNS Client
 
 Publish messages to SNS topics with optional message attributes:
@@ -224,35 +251,36 @@ export const handler = async (event: any) => {
 
 **→ See [SNS Client Guide](./docs/SNS_CLIENT.md) for detailed configuration and examples**
 
-#### Lambda Client
+#### SQS Client
 
-Invoke other Lambda functions synchronously or asynchronously:
+Send messages to SQS queues with optional message attributes:
 
 ```typescript
-import { invokeLambdaSync, invokeLambdaAsync } from '@leanstacks/lambda-utils';
+import { sendToQueue, SQSMessageAttributes } from '@leanstacks/lambda-utils';
 
 export const handler = async (event: any) => {
-  // Synchronous invocation - wait for response
-  const response = await invokeLambdaSync('my-function-name', {
-    key: 'value',
-    data: { nested: true },
-  });
+  const attributes: SQSMessageAttributes = {
+    priority: {
+      DataType: 'String',
+      StringValue: 'high',
+    },
+  };
 
-  // Asynchronous invocation - fire and forget
-  await invokeLambdaAsync('my-async-function', {
-    eventType: 'process',
-    data: [1, 2, 3],
-  });
+  const messageId = await sendToQueue(
+    'https://sqs.us-east-1.amazonaws.com/123456789012/MyQueue',
+    { orderId: '12345', status: 'completed' },
+    attributes,
+  );
 
-  return { statusCode: 200, body: JSON.stringify(response) };
+  return { statusCode: 200, body: JSON.stringify({ messageId }) };
 };
 ```
 
-**→ See [Lambda Client Guide](./docs/LAMBDA_CLIENT.md) for detailed configuration and examples**
+**→ See [SQS Client Guide](./docs/SQS_CLIENT.md) for detailed configuration and examples**
 
 ## Examples
 
-Example Lambda functions using Lambda Utilities are available in the repository:
+To see an example Lambda microservice using the Lambda Utilities, see the LeanStacks [`lambda-starter`](https://github.com/leanstacks/lambda-starter) :octocat: GitHub repository.
 
 - API Gateway with logging and response formatting
 - Configuration validation and DynamoDB integration
