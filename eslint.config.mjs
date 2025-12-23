@@ -23,6 +23,8 @@ export default [
         beforeEach: 'readonly',
         afterEach: 'readonly',
         jest: 'readonly',
+        TextEncoder: 'readonly',
+        TextDecoder: 'readonly',
       },
     },
     plugins: {

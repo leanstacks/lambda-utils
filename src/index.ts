@@ -23,4 +23,11 @@ export {
   publishToTopic,
   resetSNSClient,
 } from './clients/sns-client';
+export {
+  getLambdaClient,
+  initializeLambdaClient,
+  invokeLambdaAsync,
+  invokeLambdaSync,
+  resetLambdaClient,
+} from './clients/lambda-client';
 export { createConfigManager, ConfigManager } from './validation/config';

@@ -94,7 +94,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 - **📝 Structured Logging** – Pino logger pre-configured for Lambda with automatic AWS request context enrichment
 - **📤 API Response Helpers** – Standard response formatting for API Gateway with proper HTTP status codes
 - **⚙️ Configuration Validation** – Environment variable validation with Zod schema support
-- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients including DynamoDB and SNS with singleton patterns
+- **🔌 AWS SDK Clients** – Pre-configured AWS SDK v3 clients including DynamoDB, SNS, and Lambda with singleton patterns
 - **🔒 Full TypeScript Support** – Complete type definitions and IDE autocomplete
 - **⚡ Lambda Optimized** – Designed for performance in serverless environments
 
@@ -109,6 +109,7 @@ Comprehensive guides and examples are available in the `docs` directory:
 | **[API Gateway Responses](./docs/API_GATEWAY_RESPONSES.md)** | Format responses for API Gateway with standard HTTP patterns           |
 | **[DynamoDB Client](./docs/DYNAMODB_CLIENT.md)**             | Use pre-configured DynamoDB clients with singleton pattern             |
 | **[SNS Client](./docs/SNS_CLIENT.md)**                       | Publish messages to SNS topics with message attributes                 |
+| **[Lambda Client](./docs/LAMBDA_CLIENT.md)**                 | Invoke other Lambda functions synchronously or asynchronously          |
 
 ## Usage
 
@@ -223,7 +224,31 @@ export const handler = async (event: any) => {
 
 **→ See [SNS Client Guide](./docs/SNS_CLIENT.md) for detailed configuration and examples**
 
-Additional AWS Clients are coming soon.
+#### Lambda Client
+
+Invoke other Lambda functions synchronously or asynchronously:
+
+```typescript
+import { invokeLambdaSync, invokeLambdaAsync } from '@leanstacks/lambda-utils';
+
+export const handler = async (event: any) => {
+  // Synchronous invocation - wait for response
+  const response = await invokeLambdaSync('my-function-name', {
+    key: 'value',
+    data: { nested: true },
+  });
+
+  // Asynchronous invocation - fire and forget
+  await invokeLambdaAsync('my-async-function', {
+    eventType: 'process',
+    data: [1, 2, 3],
+  });
+
+  return { statusCode: 200, body: JSON.stringify(response) };
+};
+```
+
+**→ See [Lambda Client Guide](./docs/LAMBDA_CLIENT.md) for detailed configuration and examples**
 
 ## Examples
 
