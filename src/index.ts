@@ -30,4 +30,11 @@ export {
   invokeLambdaSync,
   resetLambdaClient,
 } from './clients/lambda-client';
+export {
+  getSQSClient,
+  initializeSQSClient,
+  SQSMessageAttributes,
+  sendToQueue,
+  resetSQSClient,
+} from './clients/sqs-client';
 export { createConfigManager, ConfigManager } from './validation/config';
