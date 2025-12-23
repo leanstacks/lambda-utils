@@ -12,13 +12,14 @@ Lambda Utilities is a collection of pre-configured tools and helpers designed to
 - **[Logging Guide](./LOGGING.md)** – Implement structured logging in your Lambda functions with Pino and automatic AWS context enrichment
 - **[API Gateway Responses](./API_GATEWAY_RESPONSES.md)** – Format Lambda responses for API Gateway with standard HTTP status codes and headers
 - **[DynamoDB Client](./DYNAMODB_CLIENT.md)** – Reusable singleton DynamoDB client instances with custom configuration
+- **[SNS Client](./SNS_CLIENT.md)** – Reusable singleton SNS client for publishing messages to topics with message attributes
 
 ## Features
 
 - 📝 **Structured Logging** – Pino logger pre-configured for Lambda with automatic request context
 - 📤 **API Response Helpers** – Standard response formatting for API Gateway integration
 - ⚙️ **Configuration Validation** – Environment variable validation with Zod schema support
-- 🔌 **AWS Clients** – Pre-configured AWS SDK v3 clients for common services
+- 🔌 **AWS Clients** – Pre-configured AWS SDK v3 clients for DynamoDB and SNS
 - 🔒 **Type Safe** – Full TypeScript support with comprehensive type definitions
 
 ## Support
