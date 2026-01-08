@@ -51,7 +51,7 @@ export const createConfigManager = <T extends z.ZodSchema>(schema: T): ConfigMan
   const _validateConfig = (): z.infer<T> => {
     try {
       // Parse and validate environment variables against the schema
-      return schema.parse(process.env);
+      return schema.parse({ ...process.env });
     } catch (error) {
       // Handle Zod validation errors
       if (error instanceof z.ZodError) {
