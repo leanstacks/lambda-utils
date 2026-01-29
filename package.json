@@ -1,6 +1,6 @@
 {
   "name": "@leanstacks/lambda-utils",
-  "version": "0.6.0",
+  "version": "0.7.0-beta.1",
   "description": "A collection of utilities and helper functions designed to streamline the development of AWS Lambda functions using TypeScript.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -63,14 +63,14 @@
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
   },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.978.0",
-    "@aws-sdk/client-lambda": "3.978.0",
-    "@aws-sdk/client-sns": "3.978.0",
-    "@aws-sdk/client-sqs": "3.978.0",
-    "@aws-sdk/lib-dynamodb": "3.978.0",
-    "pino": "10.3.0",
-    "pino-lambda": "4.4.1",
-    "zod": "4.3.6"
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.x.x",
+    "@aws-sdk/client-lambda": "^3.x.x",
+    "@aws-sdk/client-sns": "^3.x.x",
+    "@aws-sdk/client-sqs": "^3.x.x",
+    "@aws-sdk/lib-dynamodb": "^3.x.x",
+    "pino": "^10.x.x",
+    "pino-lambda": "^4.x.x",
+    "zod": "^4.x.x"
   }
 }

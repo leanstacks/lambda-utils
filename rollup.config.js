@@ -30,5 +30,5 @@ export default {
     }),
     terser(),
   ],
-  external: [...Object.keys(packageJson.dependencies || {})],
+  external: ['@aws-sdk/*', 'pino', 'pino-lambda', 'zod'],
 };
