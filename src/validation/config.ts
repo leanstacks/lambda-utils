@@ -57,7 +57,7 @@ export const createConfigManager = <T extends z.ZodSchema>(schema: T): ConfigMan
       if (error instanceof z.ZodError) {
         const errorMessage = error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join(', ');
 
-        throw new Error(`Configuration validation failed: ${errorMessage}`);
+        throw new Error(`Configuration validation failed: ${errorMessage}`, { cause: error });
       }
 
       // Re-throw other errors
